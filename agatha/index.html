@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ágatha Sophia - 16 Anos</title>
+    <meta name="description" content="Site interativo para celebrar os 16 anos de Ágatha Sophia. Estética trevosa, glamourosa, com referências a Lana Del Rey.">
+    <meta property="og:title" content="Ágatha Sophia - 16 Anos">
+    <meta property="og:description" content="Site interativo para celebrar os 16 anos de Ágatha Sophia.">
+    <meta property="og:image" content="https://seu-usuario.github.io/agatha-site/assets/images/og-image.jpg">
+    <meta property="og:url" content="https://seu-usuario.github.io/agatha-site/">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/globals.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Removido manifest.json temporariamente para evitar erros -->
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+    <!-- ESTILOS CRÍTICOS INLINE (sempre funcionam) -->
+    <style>
+        /* RESET BÁSICO */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+        }
+        
+        /* LOADER */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        
+        .loader-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(187, 134, 252, 0.3);
+            border-radius: 50%;
+            border-top-color: #bb86fc;
+            animation: spin 1s ease-in-out infinite;
+            margin-bottom: 20px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .loader-text {
+            color: #bb86fc;
+            font-family: 'Cinzel', serif;
+            font-size: 18px;
+        }
+        
+        /* CONTÊINER PARTICLES (CRÍTICO!) */
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        /* SEÇÃO DE ENTRADA */
+        .entry-section {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 1s ease;
+        }
+        
+        .entry-content {
+            text-align: center;
+            z-index: 1001;
+        }
+        
+        .entry-title {
+            font-family: 'Cinzel', serif;
+            color: #bb86fc;
+            font-size: 4rem;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(187, 134, 252, 0.5);
+        }
+        
+        .entry-subtitle {
+            font-family: 'Playfair Display', serif;
+            color: #cf6679;
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+        }
+        
+        .neon-button {
+            background: transparent;
+            border: 2px solid #bb86fc;
+            color: #bb86fc;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 0 15px rgba(187, 134, 252, 0.5);
+            border-radius: 4px;
+            margin-bottom: 30px;
+        }
+        
+        .neon-button:hover {
+            background: rgba(187, 134, 252, 0.1);
+            box-shadow: 0 0 20px rgba(187, 134, 252, 0.7);
+            transform: scale(1.05);
+        }
+        
+        /* CONTEÚDO PRINCIPAL */
+        .main-content {
+            display: none; /* Começa escondido */
+            opacity: 0;
+            transition: opacity 1s ease;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .main-content.show {
+            display: block;
+            opacity: 1;
+        }
+        
+        /* Utilitários */
+        .hidden {
+            display: none !important;
+        }
+        
+        .show {
+            display: block !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loader inicial -->
+    <div id="loader" class="loader">
+        <div class="loader-spinner"></div>
+        <p class="loader-text">Carregando magia...</p>
+    </div>
+
+    <!-- Container ESSENCIAL para particles.js -->
+    <div id="particles-js"></div>
+    <!-- Partículas da Entrada -->
+<div id="entry-particles" class="entry-particles"></div>
+
+<!-- Partículas da Home -->
+<div id="home-particles" class="home-particles"></div>
+
+    <!-- Entrada animada -->
+    <section id="entry" class="entry-section">
+        <div class="entry-content">
+            <h1 class="entry-title">Ágatha Sophia</h1>
+            <p class="entry-subtitle">16 Anos de Glamour e Trevas</p>
+            <button id="enter-btn" class="neon-button">Entrar</button>
+            <div class="audio-control">
+                <button id="audio-toggle" class="audio-button" style="background: rgba(255,255,255,0.1); border: 1px solid #bb86fc; color: #bb86fc; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; margin-right: 10px;">
+                    <i class="fas fa-volume-mute"></i>
+                </button>
+                <span style="color: #bb86fc; font-family: 'Inter', sans-serif;">Som</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTEÚDO PRINCIPAL (MANTENHA TODO O SEU CÓDIGO AQUI) -->
+    <div id="main-content" class="main-content">
+        <!-- TODO O SEU CONTEÚDO ORIGINAL VEM AQUI -->
+        <!-- Desde <header class="main-header"> até <footer class="main-footer"> -->
+        <!-- ============================================= -->
+        <!-- COLE TODO O SEU CONTEÚDO PRINCIPAL AQUI DENTRO -->
+        <!-- ============================================= -->
+        
+        <!-- CABEÇALHO -->
+        <header class="main-header">
+            <nav class="navbar">
+                <div class="logo">
+                    <span class="logo-text">Ágatha Sophia</span>
+                </div>
+                <button class="menu-toggle" aria-label="Abrir menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <ul class="nav-menu">
+                    <li><a href="#home" class="nav-link active">Home</a></li>
+                    <li><a href="#about" class="nav-link">Sobre</a></li>
+                    <li><a href="#messages" class="nav-link">Mensagens</a></li>
+                    <li><a href="#games" class="nav-link">Jogos</a></li>
+                    <li><a href="#gallery" class="nav-link">Galeria</a></li>
+                    <li><a href="#letter" class="nav-link">Carta</a></li>
+                    <li><a href="#guestbook" class="nav-link">Guestbook</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <!-- SEÇÕES -->
+        <main>
+            <!-- Seção Home -->
+            <section id="home" class="section active">
+                <div class="container">
+                    <h2 class="section-title">Bem-vindo ao mundo de Ágatha</h2>
+                    <div class="moon-container">
+                        <div class="moon" id="moon">
+                            <div class="moon-surface"></div>
+                            <div class="moon-glow"></div>
+                        </div>
+                        <p class="moon-text">Toque na lua para revelar segredos</p>
+                    </div>
+                    <div class="home-content">
+                        <p class="home-text">Este site é uma celebração dos 16 anos da Ágatha Sophia, uma jornada através de trevas glamourosas e brilhos dourados.</p>
+                        <div class="particles-demo">
+                            <div id="home-particles"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Seção Sobre -->
+            <section id="about" class="section">
+                <div class="container">
+                    <h2 class="section-title">Sobre Ágatha Sophia</h2>
+                    <div class="about-grid">
+                        <div class="about-card">
+                            <div class="about-icon">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <h3 class="about-card-title">Personalidade</h3>
+                            <p class="about-card-text">Ágatha é uma jovem cheia de estilo, com um gosto pela estética trevosa e glamourosa. Adora Lana Del Rey, cinema vintage e noites estreladas.</p>
+                        </div>
+                        <div class="about-card">
+                            <div class="about-icon">
+                                <i class="fas fa-music"></i>
+                            </div>
+                            <h3 class="about-card-title">Inspiração Lana Del Rey</h3>
+                            <p class="about-card-text">A atmosfera das músicas de Lana inspira este site: melancolia beauty, nostalgia, glamour sombrio. Referências visuais aos álbuns "Born to Die", "Ultraviolence", "Norman Fucking Rockwell".</p>
+                        </div>
+                        <div class="about-card">
+                            <div class="about-icon">
+                                <i class="fas fa-palette"></i>
+                            </div>
+                            <h3 class="about-card-title">Paleta de Cores</h3>
+                            <p class="about-card-text">Preto, vinho e dourado – cores que representam a profundidade, a paixão e o brilho que Ágatha traz para o mundo.</p>
+                        </div>
+                    </div>
+                    <div class="about-message">
+                        <blockquote>
+                            "Ágatha, eu te amo. Você é minha melhor amiga do peito."
+                        </blockquote>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Seção Mensagens -->
+            <section id="messages" class="section">
+                <div class="container">
+                    <h2 class="section-title">Mensagens & Dedicações</h2>
+                    <div class="messages-container">
+                        <div class="message-input">
+                            <textarea id="message-text" placeholder="Escreva sua mensagem para Ágatha..." rows="4"></textarea>
+                            <button id="submit-message" class="glow-button">Enviar Mensagem</button>
+                        </div>
+                        <div class="messages-list" id="messages-list">
+                            <!-- Mensagens serão carregadas aqui -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Seção Jogos -->
+            <!-- Seção Jogos - VERSÃO FUNCIONAL -->
+<section id="games" class="section">
+    <div class="container">
+        <h2 class="section-title">Jogos Interativos</h2>
+        <div class="games-grid">
+            
+            <!-- Jogo 1: Caça aos Brilhos -->
+            <div class="game-card">
+                <div class="game-header">
+                    <div class="game-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3 class="game-title">Caça aos Brilhos</h3>
+                </div>
+                <p class="game-description">Clique nas partículas que aparecem para ganhar estrelas. Tente bater seu recorde!</p>
+                
+                <div class="game-canvas-container">
+                    <canvas id="clicker-canvas" width="400" height="300"></canvas>
+                    <div class="canvas-overlay">
+                        <div class="game-instructions">
+                            <p>Clique nas partículas douradas para ganhar pontos!</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="game-stats">
+                    <div class="stat">
+                        <span class="stat-label">Pontuação:</span>
+                        <span class="stat-value" id="clicker-score">0</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Recorde:</span>
+                        <span class="stat-value" id="clicker-high-score">0</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Tempo:</span>
+                        <span class="stat-value" id="clicker-timer">60s</span>
+                    </div>
+                </div>
+                
+                <div class="game-controls">
+                    <button id="start-clicker" class="game-button start-btn">
+                        <i class="fas fa-play"></i> Iniciar Jogo
+                    </button>
+                    <button id="reset-clicker" class="game-button reset-btn">
+                        <i class="fas fa-redo"></i> Reiniciar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Jogo 2: Labirinto Lunar -->
+            <div class="game-card">
+                <div class="game-header">
+                    <div class="game-icon">
+                        <i class="fas fa-moon"></i>
+                    </div>
+                    <h3 class="game-title">Labirinto Lunar</h3>
+                </div>
+                <p class="game-description">Deslize para guiar a nave pela lua, evitando obstáculos.</p>
+                
+                <div class="game-canvas-container">
+                    <canvas id="maze-canvas" width="400" height="300"></canvas>
+                    <div class="canvas-overlay">
+                        <div class="game-instructions">
+                            <p>Use as setas para mover a nave</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="game-stats">
+                    <div class="stat">
+                        <span class="stat-label">Nível:</span>
+                        <span class="stat-value" id="maze-level">1</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Movimentos:</span>
+                        <span class="stat-value" id="maze-moves">0</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Status:</span>
+                        <span class="stat-value" id="maze-status">Pronto</span>
+                    </div>
+                </div>
+                
+                <div class="game-controls">
+                    <div class="mobile-controls">
+                        <div class="control-row">
+                            <button class="control-button up" data-direction="up">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                        </div>
+                        <div class="control-row">
+                            <button class="control-button left" data-direction="left">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button class="control-button down" data-direction="down">
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <button class="control-button right" data-direction="right">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="desktop-controls">
+                        <button id="start-maze" class="game-button start-btn">
+                            <i class="fas fa-play"></i> Iniciar Labirinto
+                        </button>
+                        <button id="reset-maze" class="game-button reset-btn">
+                            <i class="fas fa-redo"></i> Reiniciar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Jogo 3: Quiz -->
+            <div class="game-card">
+                <div class="game-header">
+                    <div class="game-icon">
+                        <i class="fas fa-question-circle"></i>
+                    </div>
+                    <h3 class="game-title">Quiz Memórias & Lana</h3>
+                </div>
+                <p class="game-description">Teste seus conhecimentos sobre Ágatha e a estética Lana Del Rey.</p>
+                
+                <div id="quiz-container">
+                    <div class="quiz-question" id="quiz-question">
+                        <p>Clique em "Iniciar" para começar o quiz!</p>
+                    </div>
+                    
+                    <div class="quiz-options" id="quiz-options">
+                        <button class="quiz-option" data-option="1">
+                            <span class="option-letter">A</span>
+                            <span class="option-text"></span>
+                        </button>
+                        <button class="quiz-option" data-option="2">
+                            <span class="option-letter">B</span>
+                            <span class="option-text"></span>
+                        </button>
+                        <button class="quiz-option" data-option="3">
+                            <span class="option-letter">C</span>
+                            <span class="option-text"></span>
+                        </button>
+                        <button class="quiz-option" data-option="4">
+                            <span class="option-letter">D</span>
+                            <span class="option-text"></span>
+                        </button>
+                    </div>
+                    
+                    <div class="quiz-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="quiz-progress"></div>
+                        </div>
+                        <span class="progress-text" id="quiz-progress-text">Pergunta 0/5</span>
+                    </div>
+                    
+                    <div class="quiz-result" id="quiz-result">
+                        <p>Complete o quiz para ver seu resultado!</p>
+                    </div>
+                </div>
+                
+                <div class="game-stats">
+                    <div class="stat">
+                        <span class="stat-label">Acertos:</span>
+                        <span class="stat-value" id="quiz-correct">0</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Pontos:</span>
+                        <span class="stat-value" id="quiz-points">0</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Status:</span>
+                        <span class="stat-value" id="quiz-status">Aguardando</span>
+                    </div>
+                </div>
+                
+                <div class="game-controls">
+                    <button id="start-quiz" class="game-button start-btn">
+                        <i class="fas fa-play"></i> Iniciar Quiz
+                    </button>
+                    <button id="next-question" class="game-button next-btn" disabled>
+                        <i class="fas fa-forward"></i> Próxima
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+            <!-- Seção Galeria -->
+            <section id="gallery" class="section">
+                <div class="container">
+                    <h2 class="section-title">Galeria Visual</h2>
+                    <div class="gallery-upload">
+                        <p>Adicione suas próprias imagens (arraste e solte ou clique para upload).</p>
+                        <div class="upload-zone" id="upload-zone">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Arraste imagens aqui ou clique para selecionar</p>
+                            <input type="file" id="file-input" multiple accept="image/*">
+                        </div>
+                        <div class="gallery-grid" id="gallery-grid">
+                            <!-- Imagens serão adicionadas aqui -->
+                            <div class="gallery-item placeholder">
+                                <img src="assets/images/placeholder-lana.jpeg" alt="Placeholder Lana Del Rey">
+                                <p>Lana Del Rey - Referência Visual</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Seção Carta -->
+            <section id="letter" class="section">
+                <div class="container">
+                    <h2 class="section-title">Carta de Declaração</h2>
+                    <div class="letter-content">
+                        <div class="letter-paper">
+                            <p class="letter-text">
+                                Querida Ágatha,<br><br>
+                                Hoje celebramos seus 16 anos – um marco cheio de luz e trevas, assim como você ama. Este site é uma expressão da minha admiração por você, uma jornada através da estética que tanto aprecia.<br><br>
+                                Lembro-me de todos os momentos em que compartilhamos músicas, filmes e sonhos. Você é minha melhor amiga do peito, e eu te amo profundamente.<br><br>
+                                Que este ano novo traga ainda mais brilho, glamour e realizações. Continue sendo essa pessoa incrível, cheia de estilo e sensibilidade.<br><br>
+                                Com todo o carinho,<br>
+                                <span class="signature">Quem te ama</span>
+                            </p>
+                        </div>
+                        <div class="letter-effects">
+                            <div class="floating-hearts"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Seção Guestbook -->
+            <section id="guestbook" class="section">
+                <div class="container">
+                    <h2 class="section-title">Guestbook</h2>
+                    <div class="guestbook-form">
+                        <input type="text" id="guest-name" placeholder="Seu nome" required>
+                        <textarea id="guest-message" placeholder="Sua mensagem..." rows="3" required></textarea>
+                        <button id="guest-submit" class="glow-button">Assinar Guestbook</button>
+                    </div>
+                    <div class="guestbook-entries" id="guestbook-entries">
+                        <!-- Entradas serão carregadas aqui -->
+                    </div>
+                    <div class="guestbook-actions">
+                        <button id="export-guestbook" class="outline-button">Exportar como JSON</button>
+                        <button id="print-guestbook" class="outline-button">Imprimir</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- RODAPÉ -->
+        <footer class="main-footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-logo">
+                        <span class="logo-text">Ágatha Sophia</span>
+                        <p class="footer-tagline">16 Anos de Glamour Trevoso</p>
+                    </div>
+                    <div class="footer-links">
+                        <a href="#home">Home</a>
+                        <a href="#about">Sobre</a>
+                        <a href="#games">Jogos</a>
+                        <a href="#gallery">Galeria</a>
+                        <a href="#letter">Carta</a>
+                        <a href="#guestbook">Guestbook</a>
+                    </div>
+                    <div class="footer-social">
+                        <a href="#" aria-label="Compartilhar no Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Compartilhar no Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Compartilhar no Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Compartilhar no WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2025 Celebração dos 16 anos de Ágatha Sophia. Site criado com ❤️ e JavaScript.</p>
+                    <p><a href="#privacy">Política de Privacidade</a> | <a href="#terms">Termos de Uso</a></p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- SCRIPTS CORRIGIDOS (ORDEM E REMOÇÃO DE PROBLEMAS) -->
+    <!-- CDNs -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
+    <!-- REMOVIDO Howler problemático - seu audio.js tem fallback -->
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lottie-web@5.12.2/build/player/lottie.min.js"></script>
+    
+    <!-- Scripts locais na ORDEM CORRETA -->
+    <!-- particles.js PRIMEIRO (resolve erro do container) -->
+    <script src="js/particles.js"></script>
+    <!-- Inicializador de Partículas (novo) -->
+<script src="js/particles-init.js"></script>
+    
+    <!-- Jogos -->
+    <script src="js/games/game-clicker.js"></script>
+    <script src="js/games/game-maze.js"></script>
+    <script src="js/games/quiz.js"></script>
+    
+    <!-- Inicializador de Jogos (novo) -->
+    <script src="js/games-init.js"></script>
+
+    <!-- Depois os outros scripts -->
+    <script src="js/moon.js"></script>
+    <script src="js/utils/audio.js"></script>
+    <script src="js/utils/storage.js"></script>
+
+    <!-- app.js POR ÚLTIMO (depende de todos) -->
+    <script src="js/app.js"></script>
+    
+    <!-- SCRIPT DE TRANSIÇÃO SIMPLES E EFICAZ -->
+    <script>
+        // Função para mostrar conteúdo principal (SIMPLES E DIRETA)
+        function showMainContent() {
+            console.log("🚀 EXECUTANDO showMainContent()");
+            
+            const entrySection = document.getElementById('entry');
+            const mainContent = document.getElementById('main-content');
+            const loader = document.getElementById('loader');
+            
+            // 1. Esconder loader se ainda visível
+            if (loader) {
+                loader.style.display = 'none';
+                console.log("✅ Loader escondido");
+            }
+            
+            // 2. Esconder seção de entrada
+            if (entrySection) {
+                entrySection.style.opacity = '0';
+                entrySection.style.pointerEvents = 'none';
+                
+                setTimeout(() => {
+                    entrySection.style.display = 'none';
+                    console.log("✅ Seção de entrada escondida");
+                }, 800);
+            }
+            
+            // 3. Mostrar conteúdo principal
+            if (mainContent) {
+                // Remover qualquer classe que possa estar escondendo
+                mainContent.classList.remove('hidden');
+                mainContent.style.display = 'block';
+                
+                // Forçar reflow para animação
+                mainContent.offsetHeight;
+                
+                // Animar entrada
+                setTimeout(() => {
+                    mainContent.style.opacity = '1';
+                    mainContent.classList.add('show');
+                    console.log("🎉 CONTEÚDO PRINCIPAL MOSTRADO!");
+                    
+                    // Disparar evento para outros scripts
+                    window.dispatchEvent(new CustomEvent('mainContentShown'));
+                    
+                    // Inicializar navegação
+                    initNavigation();
+                }, 100);
+            }
+        }
+        
+        // Função para navegação suave
+        function initNavigation() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                        
+                        // Atualizar links ativos
+                        navLinks.forEach(l => l.classList.remove('active'));
+                        this.classList.add('active');
+                    }
+                });
+            });
+        }
+        
+        // Inicialização quando DOM carrega
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("📄 DOM Carregado - Inicializando...");
+            
+            // 1. Esconder loader após 2 segundos
+            setTimeout(() => {
+                const loader = document.getElementById('loader');
+                if (loader) {
+                    loader.style.display = 'none';
+                    console.log("⏱️ Loader escondido (timeout)");
+                }
+            }, 2000);
+            
+            // 2. Configurar botão "Entrar"
+            const enterBtn = document.getElementById('enter-btn');
+            if (enterBtn) {
+                enterBtn.addEventListener('click', function() {
+                    console.log("🎯 Botão 'Entrar' clicado!");
+                    showMainContent();
+                });
+                console.log("✅ Botão 'Entrar' configurado");
+            } else {
+                console.error("❌ Botão 'Entrar' não encontrado!");
+            }
+            
+            // 3. Fallback automático: mostrar conteúdo após 4 segundos
+            setTimeout(() => {
+                const mainContent = document.getElementById('main-content');
+                if (mainContent && mainContent.style.display !== 'block') {
+                    console.log("⚠️ Fallback: mostrando conteúdo automaticamente");
+                    showMainContent();
+                }
+            }, 4000);
+            
+            // 4. Se já tiver hash na URL, mostrar conteúdo direto
+            if (window.location.hash && window.location.hash !== '#') {
+                console.log("🔗 Hash na URL detectado, mostrando conteúdo...");
+                setTimeout(() => showMainContent(), 1000);
+            }
+        });
+        
+        // Função global para debug (abre console e digite: showSite())
+        window.showSite = function() {
+            showMainContent();
+            return "✅ Site forçado a mostrar conteúdo principal!";
+        };
+        
+        // Verificar se elementos existem (debug)
+        window.checkElements = function() {
+            console.log("🔍 Verificando elementos:");
+            console.log("- enter-btn:", document.getElementById('enter-btn') ? "✅ OK" : "❌ FALTA");
+            console.log("- entry:", document.getElementById('entry') ? "✅ OK" : "❌ FALTA");
+            console.log("- main-content:", document.getElementById('main-content') ? "✅ OK" : "❌ FALTA");
+            console.log("- particles-js:", document.getElementById('particles-js') ? "✅ OK" : "❌ FALTA");
+            return "Verificação completa!";
+        };
+        // menu-mobile.js
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('📱 Inicializando menu mobile otimizado...');
+    
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navMenu = document.querySelector('.nav-menu');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const body = document.body;
+    
+    // Criar overlay para fechar menu
+    const menuOverlay = document.createElement('div');
+    menuOverlay.className = 'menu-overlay';
+    document.body.appendChild(menuOverlay);
+    
+    // Toggle do menu
+    function toggleMenu() {
+        const isActive = navMenu.classList.contains('active');
+        
+        if (!isActive) {
+            // Abrir menu
+            navMenu.classList.add('active');
+            menuToggle.classList.add('active');
+            menuOverlay.classList.add('active');
+            body.style.overflow = 'hidden';
+            menuToggle.innerHTML = '<i class="fas fa-times"></i>';
+            
+            // Animar ícones do menu
+            navLinks.forEach((link, index) => {
+                link.style.transitionDelay = `${0.1 + (index * 0.05)}s`;
+            });
+        } else {
+            // Fechar menu
+            closeMenu();
+        }
+    }
+    
+    // Fechar menu
+    function closeMenu() {
+        navMenu.classList.remove('active');
+        menuToggle.classList.remove('active');
+        menuOverlay.classList.remove('active');
+        body.style.overflow = '';
+        menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+        
+        // Resetar delays
+        navLinks.forEach(link => {
+            link.style.transitionDelay = '0s';
+        });
+    }
+    
+    // Event listeners
+    if (menuToggle) {
+        menuToggle.addEventListener('click', toggleMenu);
+        menuToggle.addEventListener('touchstart', toggleMenu);
+    }
+    
+    // Fechar menu ao clicar no overlay
+    menuOverlay.addEventListener('click', closeMenu);
+    menuOverlay.addEventListener('touchstart', closeMenu);
+    
+    // Fechar menu ao clicar em um link
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Suavizar transição para a seção
+            const targetId = this.getAttribute('href');
+            if (targetId && targetId !== '#') {
+                closeMenu();
+                
+                setTimeout(() => {
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 70,
+                            behavior: 'smooth'
+                        });
+                    }
+                }, 300);
+            }
+        });
+    });
+    
+    // Fechar menu ao pressionar ESC
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+            closeMenu();
+        }
+    });
+    
+    // Swipe para fechar menu (touch devices)
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    navMenu.addEventListener('touchstart', function(e) {
+        touchStartX = e.changedTouches[0].screenX;
+    });
+    
+    navMenu.addEventListener('touchend', function(e) {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    });
+    
+    function handleSwipe() {
+        const swipeThreshold = 50;
+        const swipeDistance = touchEndX - touchStartX;
+        
+        // Swipe para a direita para fechar
+        if (swipeDistance > swipeThreshold && navMenu.classList.contains('active')) {
+            closeMenu();
+        }
+    }
+    
+    // Detectar clique fora do menu para fechar
+    document.addEventListener('click', function(e) {
+        if (navMenu.classList.contains('active') && 
+            !navMenu.contains(e.target) && 
+            e.target !== menuToggle) {
+            closeMenu();
+        }
+    });
+    
+    // Ajustar altura do menu com base na viewport
+    function adjustMenuHeight() {
+        if (window.innerWidth <= 768) {
+            const vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+            
+            if (navMenu.classList.contains('active')) {
+                navMenu.style.height = 'calc(var(--vh, 1vh) * 100)';
+            }
+        }
+    }
+    
+    // Inicializar
+    adjustMenuHeight();
+    window.addEventListener('resize', adjustMenuHeight);
+    window.addEventListener('orientationchange', adjustMenuHeight);
+    
+    // Adicionar ícones aos links do menu (opcional)
+    const menuIcons = {
+        '#home': 'fas fa-home',
+        '#about': 'fas fa-star',
+        '#messages': 'fas fa-envelope',
+        '#games': 'fas fa-gamepad',
+        '#gallery': 'fas fa-images',
+        '#letter': 'fas fa-heart',
+        '#guestbook': 'fas fa-book'
+    };
+    
+    navLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        if (menuIcons[href]) {
+            const icon = document.createElement('i');
+            icon.className = menuIcons[href];
+            link.prepend(icon);
+        }
+    });
+    
+    console.log('✅ Menu mobile otimizado carregado');
+});
+    </script>
+</body>
+</html>
