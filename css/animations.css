@@ -1,0 +1,319 @@
+/* animations.css */
+/* Arquivo dedicado a keyframes e classes utilitárias de animação */
+/* Todas as animações respeitam prefers-reduced-motion */
+
+/* Keyframes principais */
+@keyframes pulse-glow {
+  0%, 100% {
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.3),
+                 0 0 20px rgba(212, 175, 55, 0.2),
+                 0 0 30px rgba(212, 175, 55, 0.1);
+    transform: scale(1);
+  }
+  50% {
+    text-shadow: 0 0 20px rgba(212, 175, 55, 0.6),
+                 0 0 40px rgba(212, 175, 55, 0.4),
+                 0 0 60px rgba(212, 175, 55, 0.2);
+    transform: scale(1.02);
+  }
+}
+
+@keyframes float-up {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes shimmer-gold {
+  0%, 100% {
+    background-position: -200% center;
+  }
+  50% {
+    background-position: 200% center;
+  }
+}
+
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(-100vh) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+@keyframes typing-fade {
+  0%, 100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes wiggle {
+  0%, 100% {
+    transform: rotate(-1deg);
+  }
+  50% {
+    transform: rotate(1deg);
+  }
+}
+
+@keyframes slide-left {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fade-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes reveal-clip {
+  from {
+    clip-path: polygon(0 0, 0 0, 0 100%, 0% 100%);
+  }
+  to {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+  }
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Classes de animação utilitárias */
+.name-pulse {
+  animation: pulse-glow var(--pulse-duration) ease-in-out infinite;
+  /* JS controla --pulse-duration via style.setProperty */
+}
+
+.float-up {
+  animation: float-up calc(8s / var(--glitter-speed, 1)) linear forwards;
+  /* JS controla --glitter-speed para partículas */
+}
+
+.spin-slow {
+  animation: spin-slow 20s linear infinite;
+}
+
+.shimmer-gold {
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(212, 175, 55, 0.8), 
+    transparent, 
+    rgba(212, 175, 55, 0.8), 
+    transparent);
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: shimmer-gold 4s linear infinite;
+}
+
+.confetti-fall {
+  animation: confetti-fall 3s ease-in forwards;
+}
+
+.typing-fade {
+  animation: typing-fade 1.5s ease-in-out infinite;
+}
+
+.scale-in {
+  animation: scale-in 0.5s var(--transition) forwards;
+}
+
+.wiggle {
+  animation: wiggle 0.5s ease-in-out;
+}
+
+.slide-left {
+  animation: slide-left 0.6s var(--transition) forwards;
+}
+
+.fade-slide-up {
+  animation: fade-slide-up 0.7s var(--transition) forwards;
+}
+
+.reveal-clip {
+  animation: reveal-clip 1.2s var(--transition-slow) forwards;
+}
+
+/* Efeitos de hover/tap */
+.hover-glow {
+  transition: box-shadow var(--transition), transform var(--transition);
+}
+
+.hover-glow:hover, .hover-glow:focus {
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+  transform: translateY(-2px);
+}
+
+.active-press:active {
+  transform: scale(0.95);
+  transition: transform var(--transition-fast);
+}
+
+/* Efeitos específicos para brilhos */
+.glitter {
+  animation: float-up calc(10s / var(--glitter-speed, 1)) linear infinite;
+  /* JS pode controlar a velocidade via --glitter-speed */
+}
+
+.spark {
+  animation: blink 1s ease-in-out infinite;
+}
+
+/* Classes para redução de movimento */
+@media (prefers-reduced-motion: reduce) {
+  .reduced-motion *,
+  .reduced-motion *::before,
+  .reduced-motion *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .name-pulse {
+    animation: none;
+    text-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+  }
+  
+  .float-up,
+  .spin-slow,
+  .shimmer-gold,
+  .confetti-fall,
+  .typing-fade,
+  .scale-in,
+  .wiggle,
+  .slide-left,
+  .fade-slide-up,
+  .reveal-clip {
+    animation: none !important;
+  }
+}
+
+/* Estados controlados por JS */
+.is-playing .audio-button {
+  color: var(--gold);
+  animation: blink 2s infinite;
+}
+
+.is-muted .audio-button {
+  animation: none;
+}
+
+.is-open {
+  display: block !important;
+  animation: scale-in 0.3s var(--transition) forwards;
+}
+
+.game-over {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+/* Animações para entrada do site */
+.entry-section.fade-out {
+  animation: fade-slide-up 0.8s var(--transition) reverse forwards;
+}
+
+.main-content.fade-in {
+  animation: fade-slide-up 0.8s var(--transition) forwards;
+}
+
+/* Animações para elementos específicos */
+.moon-container:hover #moon {
+  animation: wiggle 0.8s ease-in-out;
+}
+
+.guestbook-entry.new-entry {
+  animation: slide-left 0.5s var(--transition) forwards;
+}
+
+.gallery-item.new-image {
+  animation: scale-in 0.5s var(--transition) forwards;
+}
+
+/* Confetti CSS (fallback) */
+.confetti.css-fallback {
+  width: 12px;
+  height: 12px;
+  background-color: var(--gold);
+  animation: confetti-fall 3s linear forwards;
+}
+
+/* Animações para partículas (JS controla a densidade) */
+@keyframes particle-float {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(calc(-100vh * var(--particle-density, 1))) 
+               translateX(calc(100px * sin(360deg * var(--particle-index, 0))));
+    opacity: 0;
+  }
+}
+
+.particle {
+  animation: particle-float calc(15s / var(--particle-density, 1)) linear infinite;
+  /* JS define --particle-density e --particle-index por elemento */
+}

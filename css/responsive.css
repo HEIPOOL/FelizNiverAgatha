@@ -1,0 +1,331 @@
+/* responsive.css */
+/* Estilos responsivos mobile-first */
+
+/* Base: até 479px (phones small) */
+/* Já definido no mobile-first (globals.css) */
+
+/* Breakpoint: 480px - phones large / small tablets */
+@media (min-width: 480px) {
+  :root {
+    --gap: 1.25rem;
+    --container-padding: 1.5rem;
+  }
+  
+  .gallery-grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  }
+  
+  .game-controls {
+    max-width: 250px;
+  }
+  
+  .footer-content {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+}
+
+/* Breakpoint: 768px - tablets */
+@media (min-width: 768px) {
+  :root {
+    --gap: 1.5rem;
+    --container-padding: 2rem;
+    --section-padding: clamp(3rem, 6vw, 5rem);
+    --font-size-hero: clamp(4rem, 10vw, 8rem);
+  }
+  
+  /* Layout do menu de navegação para tablets+ */
+  .menu-toggle {
+    display: none;
+  }
+  
+  .nav-menu {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  /* Grid para seções */
+  .about-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--gap);
+  }
+  
+  .games-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--gap);
+  }
+  
+  .gallery-grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  }
+  
+  /* Tipografia fluida para desktop */
+  h1 {
+    font-size: var(--font-size-hero);
+  }
+  
+  h2 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+  }
+  
+  .lead {
+    font-size: var(--font-size-xl);
+  }
+  
+  /* Aumentar densidade de partículas em telas maiores */
+  .particles-canvas {
+    --particle-density: 1.5; /* Sugestão para JS aumentar partículas */
+  }
+}
+
+/* Breakpoint: 1024px - desktop */
+@media (min-width: 1024px) {
+  :root {
+    --gap: 2rem;
+  }
+  
+  /* Layout de 3 colunas para seções */
+  .about-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .games-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  /* Ajustes para jogos em desktop */
+  .game-canvas {
+    height: 400px;
+  }
+  
+  /* Guestbook com layout de duas colunas */
+  .guestbook-entries {
+    columns: 2;
+    column-gap: var(--gap);
+  }
+  
+  .guestbook-entry {
+    break-inside: avoid;
+    margin-bottom: var(--gap);
+  }
+  
+  /* Melhorar efeitos visuais em desktop */
+  .main-header {
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+  }
+  
+  .btn, .card {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+  
+  /* Aumentar ainda mais partículas */
+  .particles-canvas {
+    --particle-density: 2;
+  }
+}
+
+/* Breakpoint: 1280px - wide screens */
+@media (min-width: 1280px) {
+  :root {
+    --max-width: 1400px;
+  }
+  
+  .gallery-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+  
+  /* Layout com sidebar para jogos (exemplo) */
+  .game-with-sidebar {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: var(--gap);
+  }
+  
+  .particles-canvas {
+    --particle-density: 2.5;
+  }
+}
+
+/* Breakpoint: 1600px - telas muito grandes */
+@media (min-width: 1600px) {
+  :root {
+    --max-width: 1600px;
+    --container-padding: 3rem;
+  }
+  
+  h1 {
+    font-size: clamp(6rem, 10vw, 10rem);
+  }
+}
+
+/* Otimizações para touch devices */
+@media (pointer: coarse) {
+  /* Aumentar áreas de toque */
+  .btn, .nav-link, .control-button, .gallery-item {
+    min-height: 56px;
+    min-width: 56px;
+  }
+  
+  .menu-toggle, .audio-button {
+    min-height: 56px;
+    min-width: 56px;
+  }
+  
+  /* Reduzir animações em dispositivos de toque para performance */
+  .particles-canvas {
+    --particle-density: 0.7;
+  }
+  
+  .glitter, .spark {
+    animation-duration: calc(15s / var(--glitter-speed, 1));
+  }
+}
+
+/* Otimizações para conexões lentas */
+@media (prefers-reduced-data: reduce) {
+  body::before {
+    display: none; /* Remover overlay de grain */
+  }
+  
+  .particles-canvas {
+    display: none !important; /* Remover partículas */
+  }
+  
+  .glitter, .spark {
+    display: none;
+  }
+  
+  * {
+    background-image: none !important; /* Remover todas as imagens de fundo */
+  }
+  
+  .card, .btn {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+/* Suporte a modo de alto contraste */
+@media (prefers-contrast: high) {
+  :root {
+    --gold: #ffd700;
+    --wine: #8b0000;
+  }
+  
+  .name-hero {
+    text-shadow: 0 0 5px #000, 0 0 10px #000;
+  }
+  
+  .btn-neon {
+    border-width: 3px;
+  }
+  
+  .card {
+    border: 2px solid var(--light);
+  }
+}
+
+/* Suporte a modo escuro/claro (embora o site seja escuro) */
+@media (prefers-color-scheme: light) {
+  body {
+    color: var(--dark);
+    background-color: #f0f0f0;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    color: var(--dark);
+  }
+  
+  .card, .btn, .main-header {
+    background-color: rgba(255, 255, 255, 0.9);
+    color: var(--dark);
+  }
+  
+  .nav-link {
+    color: var(--dark);
+  }
+  
+  .text-gold {
+    color: #b8860b; /* Tom mais escuro para contraste */
+  }
+}
+
+/* Ajustes para orientação paisagem em mobile */
+@media (max-height: 600px) and (orientation: landscape) {
+  .entry-section {
+    padding: 1rem;
+  }
+  
+  .entry-title {
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    margin-bottom: 0.25rem;
+  }
+  
+  .entry-subtitle {
+    margin-bottom: 1.5rem;
+  }
+  
+  .section {
+    padding: 1.5rem 0;
+  }
+  
+  .moon-container {
+    width: 200px;
+    height: 200px;
+  }
+}
+
+/* Ajustes para telas muito pequenas (até 360px) */
+@media (max-width: 359px) {
+  :root {
+    --container-padding: 0.75rem;
+    --gap: 0.75rem;
+  }
+  
+  .entry-title {
+    font-size: 2.5rem;
+  }
+  
+  .neon-button {
+    padding: 0.75rem 1.5rem;
+    font-size: var(--font-size-base);
+  }
+  
+  .gallery-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+}
+
+/* Impressão */
+@media print {
+  .main-header,
+  .audio-control,
+  .menu-toggle,
+  .footer-social,
+  .game-controls,
+  .upload-zone,
+  .btn {
+    display: none !important;
+  }
+  
+  body {
+    color: #000;
+    background-color: #fff;
+  }
+  
+  .card, .guestbook-entry {
+    break-inside: avoid;
+    border: 1px solid #ddd;
+    box-shadow: none;
+  }
+  
+  a {
+    color: #000;
+    text-decoration: none;
+  }
+}

@@ -1,0 +1,85 @@
+<!-- header.html -->
+<header class="site-header" role="banner">
+  <div class="header-container">
+    <!-- Brand/logo area with home link -->
+    <a href="#/home" class="brand" aria-label="Ágatha Sophia 16 anos - página inicial">
+      <span class="name-hero">Ágatha Sophia</span>
+      <span class="age-subtitle">16 anos</span>
+    </a>
+
+    <!-- Mobile navigation toggle -->
+    <!-- JS: document.querySelector('[data-nav-toggle]').addEventListener('click', (e) => { ... }) -->
+    <button class="nav-toggle" aria-controls="site-nav" aria-expanded="false" data-nav-toggle>
+      <span class="nav-toggle-icon">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </span>
+      <span class="nav-toggle-text">Menu</span>
+    </button>
+
+    <!-- Main navigation -->
+    <nav id="site-nav" class="site-nav" role="navigation" aria-label="Navegação principal">
+      <ul class="nav-list">
+        <li><a href="#/home" class="nav-link" data-track="nav-home">Home</a></li>
+        <li><a href="#/about" class="nav-link" data-track="nav-about">Sobre</a></li>
+        <li><a href="#/games" class="nav-link" data-track="nav-games">Jogos</a></li>
+        <li><a href="#/quiz" class="nav-link" data-track="nav-quiz">Quiz</a></li>
+        <li><a href="#/gallery" class="nav-link" data-track="nav-gallery">Galeria</a></li>
+        <li>
+          <a href="#/guestbook" class="nav-link" data-track="nav-guestbook" data-open-modal="guestbook">
+            Guestbook
+          </a>
+        </li>
+        <li><a href="#/contact" class="nav-link" data-track="nav-contact">Contato</a></li>
+      </ul>
+
+      <!-- Utility controls -->
+      <div class="header-utilities">
+        <!-- Audio control -->
+        <!-- JS: emits 'agatha:audio:toggle', updates aria-pressed and .audio-status -->
+        <button class="btn-audio-toggle" data-audio-toggle aria-pressed="false" aria-label="Alternar áudio de fundo">
+          <span class="audio-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+              <path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/>
+            </svg>
+          </span>
+          <span class="audio-status" aria-live="polite">Tocando</span>
+        </button>
+
+        <!-- Upload trigger -->
+        <button class="btn-icon" data-open-modal="uploader" aria-label="Enviar imagem para galeria">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+            <path d="M17 8l-5-5-5 5"/>
+            <path d="M12 3v12"/>
+          </svg>
+        </button>
+
+        <!-- Theme toggle (optional) -->
+        <button class="btn-icon" data-theme-toggle aria-label="Alternar tema claro/escuro">
+          <svg class="theme-icon-light" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+          </svg>
+          <svg class="theme-icon-dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+          </svg>
+        </button>
+
+        <!-- Moon modal trigger -->
+        <button class="btn-icon" data-open-modal="moon" aria-label="Revelação especial">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+          </svg>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Audio state indicator for screen readers -->
+    <div class="sr-only" aria-live="polite" aria-atomic="true">
+      Áudio de fundo: <span class="audio-state-text">tocando</span>
+    </div>
+  </div>
+</header>

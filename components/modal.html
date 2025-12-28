@@ -1,0 +1,199 @@
+<!-- modal.html -->
+<div class="modal" data-modal="" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modal-title">
+  <!-- Backdrop for closing modal -->
+  <!-- JS: click on [data-close-modal] dispatches 'agatha:modal:close' -->
+  <div class="modal-backdrop" data-close-modal tabindex="-1" aria-hidden="true"></div>
+
+  <!-- Focus trap start (invisible) -->
+  <span class="modal-focus-trap-start" tabindex="0" data-modal-focus-trap aria-hidden="true"></span>
+
+  <!-- Modal panel -->
+  <div class="modal-panel" role="document">
+    <!-- Close button -->
+    <button class="modal-close" data-close-modal aria-label="Fechar modal">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 6L6 18M6 6l12 12"/>
+      </svg>
+    </button>
+
+    <!-- Modal header -->
+    <header class="modal-header">
+      <h2 id="modal-title" class="modal-title">Título do Modal</h2>
+    </header>
+
+    <!-- Modal content area -->
+    <main class="modal-body">
+      <!-- Dynamic content based on modal type -->
+
+      <!-- Guestbook form -->
+      <div class="modal-content modal-content-guestbook" data-modal-content="guestbook" hidden>
+        <!-- JS: Form validation, emits 'agatha:guestbook:submit' -->
+        <form id="guestbookForm" class="guestbook-form" novalidate>
+          <div class="form-group">
+            <label for="guestbook-name" class="form-label">Seu nome (opcional)</label>
+            <input type="text" id="guestbook-name" name="name" class="form-input" 
+                   placeholder="Como gostaria de ser chamado?" maxlength="50" data-guestbook-field>
+          </div>
+
+          <div class="form-group">
+            <label for="guestbook-message" class="form-label">Mensagem para Ágatha <span class="required">*</span></label>
+            <textarea id="guestbook-message" name="message" class="form-textarea" 
+                      placeholder="Deixe uma mensagem especial, conselho, ou lembrança..." 
+                      rows="5" required data-guestbook-field></textarea>
+            <div class="char-counter" data-char-counter>
+              <span class="char-count">0</span>/500
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn-secondary" data-close-modal>Cancelar</button>
+            <button type="submit" class="btn btn-primary btn-neon" data-guestbook-submit>
+              Enviar Mensagem
+            </button>
+          </div>
+        </form>
+
+        <noscript>
+          <div class="noscript-message">
+            <p>O guestbook requer JavaScript para funcionar. Você pode enviar uma mensagem através das redes sociais com a hashtag <strong>#Ágatha16</strong>.</p>
+          </div>
+        </noscript>
+      </div>
+
+      <!-- Image uploader -->
+      <div class="modal-content modal-content-uploader" data-modal-content="uploader" hidden>
+        <div class="uploader-instructions">
+          <p>Compartilhe uma imagem que combine com a vibe do site (inspirado em Lana Del Rey).</p>
+          <p><small>Tamanho máximo: 5MB. Formatos: JPG, PNG, GIF.</small></p>
+        </div>
+
+        <!-- JS: Handles drag & drop, preview, validation -->
+        <div class="uploader" data-uploader>
+          <div class="uploader-dropzone" data-upload-dropzone>
+            <input type="file" id="upload-file" accept="image/*" data-upload-input hidden>
+            <label for="upload-file" class="uploader-label">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                <path d="M17 8l-5-5-5 5"/>
+                <path d="M12 3v12"/>
+              </svg>
+              <span class="uploader-title">Arraste uma imagem aqui ou clique para selecionar</span>
+              <span class="uploader-subtitle">Tema: Lana Del Rey aesthetic</span>
+            </label>
+          </div>
+
+          <div class="uploader-preview" data-upload-preview hidden>
+            <div class="preview-container">
+              <img src="/assets/placeholder-lana.jpg" alt="Preview da imagem selecionada" class="preview-image">
+              <button class="preview-remove" data-upload-remove aria-label="Remover imagem">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M18 6L6 18M6 6l12 12"/>
+                </svg>
+              </button>
+            </div>
+            <div class="preview-info">
+              <span class="preview-name" data-preview-name></span>
+              <span class="preview-size" data-preview-size></span>
+            </div>
+          </div>
+
+          <div class="uploader-actions">
+            <button class="btn btn-secondary" data-close-modal>Cancelar</button>
+            <button class="btn btn-primary" data-upload-submit disabled>
+              Enviar para Galeria
+            </button>
+          </div>
+        </div>
+
+        <noscript>
+          <div class="noscript-message">
+            <p>O upload de imagens requer JavaScript ativo.</p>
+          </div>
+        </noscript>
+      </div>
+
+      <!-- Moon reveal -->
+      <div class="modal-content modal-content-moon" data-modal-content="moon" hidden>
+        <div class="moon-reveal">
+          <div class="moon-illustration">
+            <svg width="120" height="120" viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="60" cy="60" r="55" class="moon-outline"/>
+              <path d="M60 15A45 45 0 0115 60" class="moon-crescent"/>
+            </svg>
+          </div>
+          
+          <div class="moon-content">
+            <h3 class="moon-title">Revelação Lunar</h3>
+            <p class="moon-text">
+              Clique no botão abaixo para revelar uma mensagem especial sob a luz da lua.
+            </p>
+            
+            <!-- JS: On click, emits 'agatha:moon:reveal', shows message -->
+            <button class="btn btn-neon moon-reveal-btn" data-moon-reveal>
+              Revelar Mensagem
+            </button>
+            
+            <div class="moon-message" hidden aria-live="polite" data-moon-message>
+              <div class="message-content">
+                <p>Para Ágatha, que brilha como a lua em noite estrelada: que seus 16 anos sejam tão mágicos quanto um eclipse lunar e tão memoráveis quanto as fases da lua. Que cada momento seja especial! ✨</p>
+              </div>
+              <button class="btn btn-secondary" data-moon-hide>Ocultar</button>
+            </div>
+          </div>
+        </div>
+        
+        <noscript>
+          <div class="noscript-message">
+            <p>Ative o JavaScript para revelar a mensagem especial.</p>
+          </div>
+        </noscript>
+      </div>
+
+      <!-- Game instructions -->
+      <div class="modal-content modal-content-instructions" data-modal-content="instructions" hidden>
+        <div class="instructions-content">
+          <h3>Como Jogar</h3>
+          <div class="instructions-steps">
+            <div class="step">
+              <span class="step-number">1</span>
+              <p>Escolha o jogo que deseja jogar na seção de Jogos.</p>
+            </div>
+            <div class="step">
+              <span class="step-number">2</span>
+              <p>Siga as instruções específicas de cada jogo.</p>
+            </div>
+            <div class="step">
+              <span class="step-number">3</span>
+              <p>Aproveite a experiência e divirta-se!</p>
+            </div>
+          </div>
+          
+          <div class="instructions-notes">
+            <p><strong>Dica:</strong> Alguns jogos têm Easter eggs escondidos. Explore com atenção!</p>
+          </div>
+          
+          <div class="instructions-actions">
+            <button class="btn btn-primary" data-close-modal>Entendi</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Default/fallback content -->
+      <div class="modal-content modal-content-default" data-modal-content="default">
+        <p>Conteúdo do modal será carregado aqui.</p>
+      </div>
+    </main>
+
+    <!-- Modal footer -->
+    <footer class="modal-footer">
+      <div class="modal-footer-content">
+        <p class="modal-hint">
+          <small>Pressione <kbd>ESC</kbd> ou clique fora para fechar</small>
+        </p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Focus trap end (invisible) -->
+  <span class="modal-focus-trap-end" tabindex="0" data-modal-focus-trap aria-hidden="true"></span>
+</div>
